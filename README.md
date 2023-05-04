@@ -52,5 +52,11 @@ Note: Trò chơi này chỉ là bản thử trên môi trường Window và đư
 * Step 4: Chạy chương trình.
 * Step 5: Nếu đã thực hiện chính xác các bước trên, trò chơi sẽ được khởi và bạn có thể tận hưởng trò chơi =)))
 # Credits
-* Dự án được tạo bời [Phạm Trung ](https://github.com/KineBeo)
+* Dự án được tạo bời [Phạm Trung Kiên](https://github.com/KineBeo)
+* Game assets được tham khảo từ nhiều nguồn như: 
+  * Itch.io
+  * Mixkit.co
+  * Etc...
+# Licenses
+Đây là phần mềm miễn phí. Vậy nên bạn có thể sử dụng nó theo cách bạn muốn!
 
