@@ -14,6 +14,9 @@
 #include "Eagle.h"
 #include "Button.h"
 #include "UTIL.h"
+#include "Boss.h"
+#include "Slime.h"
+#include "CreepyDog.h"
 // The window we'll rendering to
 extern SDL_Window* g_window;
 
@@ -30,7 +33,7 @@ extern LTexture g_Death_count;
 extern LTexture PlayAgain;
 
 // Highscore Text
-extern LTexture gHighScoreText;
+extern LTexture gScoreText;
 
 // Tutorial Text
 extern LTexture gTutorialText;
@@ -78,6 +81,7 @@ extern LTexture g_FoxJumpTexture;
 // Fireball
 extern FireBall fireball;
 
+// Game monster
 // Pig
 extern Pig Lever1_mPigs[LEVER1_TOTAL_PIG];
 
@@ -86,6 +90,7 @@ extern Eagle Lever1_mEagles[LEVER1_TOTAL_EAGLE];
 
 extern Eagle Lever2_mEagles[LEVER2_TOTAL_EAGLE];
 
+extern CreepyDog Lever2_mDog[LEVER2_TOTAL_EAGLE];
 // main loop flag
 extern  bool quit;
 
@@ -96,7 +101,7 @@ extern int current_level;
 extern int game_status;
 
 // Score
-extern int Highscore;
+extern int Score;
 
 // Fireball bonus count
 extern int FireballEnergy;
@@ -107,22 +112,30 @@ extern int NumFireBalls ;
 // GameOver Texture
 extern LTexture game_over;
 
-// Start button
+// Game button
 extern Button gStartButton;
 
-// Exit button
 extern Button gExitButton;
 
-// Yes and No button
 extern Button gYesButton;
 
 extern Button gNoButton;
 
+extern Button gResumeButton;
+
+extern Button gPauseButton;
+
+extern Button gHomeButton;
+
+extern Button gRestartButton;
+
 extern bool playagain;
 
+// Fox current position
 extern int FoxPosX, FoxPosY;
 
-extern int Health;
+// Fox state bar
+extern int FoxHealth;
 
 extern LTexture StateBar;
 
@@ -130,6 +143,7 @@ extern LTexture Heart;
 
 extern LTexture NumFireballInStateBar;
 
+// Game Sound
 extern Mix_Chunk *gButtonClick;
 
 extern Mix_Music *gSoundTrack;
@@ -141,6 +155,55 @@ extern Mix_Chunk *gFireBallWhoosh;
 extern Mix_Chunk *gExplosion;
 
 extern Mix_Chunk *gCoin;
+
+// Boss
+extern Boss mBoss;
+
+// The background scrolling of set ( Độ lệch của background )
+extern double scrollingOfSet;
+
+extern bool GamePause;
+
+extern LTexture PauseBar;
+
+// Monster of boss
+extern std::vector <Pig*> mPigsOfBoss;
+
+extern std::vector <Slime*> mSlimesOfBoss;
+
+extern std::vector <CreepyDog*> mDogOfBoss;
+
+extern int NumPigOfBossDie;
+
+extern int NumPigofBossSpawn;
+
+extern int SpawnTimer;
+
+extern int PigSpawnTimer;
+
+extern int SlimeSpawnTimer;
+
+extern int DogSpawnTimer;
+
+extern int TeleportTimer;
+
+extern LTexture gBossFireball;
+
+extern LTexture gBossHealthBar;
+
+extern int BossHealth;
+
+extern int FoxCurrentHeart;
+
+extern int FireBallPhase3SpawnTime;
+
+extern LTexture BossDieMessageToPlayer_Text;
+
+extern LTexture VictoryMessage_Text;
+
+extern LTexture BossPhase3Text;
+
+
 
 
 #endif // GLOBAL_H_

@@ -35,7 +35,7 @@ bool Fox::LoadCharacter()
 {
     bool success = true;
     // Run
-    if ( !g_FoxRunTexture.LoadImageFromFile("img/Character/fox_run.png"))
+    if ( !g_FoxRunTexture.LoadImageFromFile("img/Character/FoxRun.png"))
     {
         success = false;
     }
@@ -47,7 +47,7 @@ bool Fox::LoadCharacter()
         }
     }
     // Idle
-    if ( !g_FoxIdleTexture.LoadImageFromFile("img/Character/fox_idle.png") )
+    if ( !g_FoxIdleTexture.LoadImageFromFile("img/Character/FoxIdle.png") )
     {
         success = false;
     }
@@ -59,7 +59,7 @@ bool Fox::LoadCharacter()
         }
     }
     // Hurt
-    if (!g_FoxHurtTexture.LoadImageFromFile("img/Character/fox_hurt.png"))
+    if (!g_FoxHurtTexture.LoadImageFromFile("img/Character/FoxHurt.png"))
     {
         success = false;
     }
@@ -82,11 +82,12 @@ void Fox::HandleEvent(SDL_Event& event)
         {
         // Move up
         case SDLK_SPACE:
-            if ( !is_jumping )
+            if ( !JUMP )
             {
                 mVelY += FOX_JUMP_VEL;
-                is_jumping = true;
+                JUMP = true;
             }
+            Mix_PlayChannel(-1, gCoin, 0);
             break;
         // Move left
         case SDLK_a:
@@ -164,7 +165,7 @@ void Fox::Move(Tile* tiles[])
     {
         mBox.y -= mVelY;
         mVelY = 0;
-        is_jumping = false;
+        JUMP = false;
     }
     // Apply gravity
     mVelY += GRAVITY;
@@ -178,13 +179,13 @@ void Fox::Move(Tile* tiles[])
     if (current_level == 1)
     {
         if (CheckCollision(mBox, Lever1_mPigs[0].GetMonsterBox()) || CheckCollision(mBox, Lever1_mPigs[1].GetMonsterBox()) || CheckCollision(mBox, Lever1_mPigs[2].GetMonsterBox()) ||
-            CheckCollision(mBox, Lever1_mPigs[3].GetMonsterBox()) || CheckCollision(mBox, Lever1_mPigs[4].GetMonsterBox()) || CheckCollision(mBox, Lever1_mPigs[5].GetMonsterBox()) ||
-            CheckCollision(mBox, Lever1_mEagles[0].GetMonsterBox()) || CheckCollision(mBox, Lever1_mEagles[1].GetMonsterBox()) || CheckCollision(mBox, Lever1_mEagles[2].GetMonsterBox()) ||
-            CheckCollision(mBox, Lever1_mEagles[3].GetMonsterBox()) || CheckCollision(mBox, Lever1_mEagles[4].GetMonsterBox()) || CheckCollision(mBox, Lever1_mEagles[5].GetMonsterBox()))
+                CheckCollision(mBox, Lever1_mPigs[3].GetMonsterBox()) || CheckCollision(mBox, Lever1_mPigs[4].GetMonsterBox()) || CheckCollision(mBox, Lever1_mPigs[5].GetMonsterBox()) ||
+                CheckCollision(mBox, Lever1_mEagles[0].GetMonsterBox()) || CheckCollision(mBox, Lever1_mEagles[1].GetMonsterBox()) || CheckCollision(mBox, Lever1_mEagles[2].GetMonsterBox()) ||
+                CheckCollision(mBox, Lever1_mEagles[3].GetMonsterBox()) || CheckCollision(mBox, Lever1_mEagles[4].GetMonsterBox()) || CheckCollision(mBox, Lever1_mEagles[5].GetMonsterBox()))
         {
             HURT = true;
             RUN = IDLE = false;
-            Health -= 1;
+            FoxHealth -= 1;
         }
         else
         {
@@ -193,16 +194,44 @@ void Fox::Move(Tile* tiles[])
     }
     if (current_level == 2)
     {
-        if (CheckCollision(mBox, Lever2_mEagles[0].GetMonsterBox()) || CheckCollision(mBox, Lever2_mEagles[1].GetMonsterBox())
-            || CheckCollision(mBox, Lever2_mEagles[2].GetMonsterBox()) || CheckCollision(mBox, Lever2_mEagles[3].GetMonsterBox()))
+        if (CheckCollision(mBox, Lever2_mEagles[0].GetMonsterBox()) || CheckCollision(mBox, Lever2_mEagles[1].GetMonsterBox())|| CheckCollision(mBox, Lever2_mEagles[2].GetMonsterBox()) || CheckCollision(mBox, Lever2_mEagles[3].GetMonsterBox()) ||
+                CheckCollision(mBox, Lever2_mDog[0].GetMonsterBox()) || CheckCollision(mBox, Lever2_mDog[1].GetMonsterBox()) || CheckCollision(mBox, Lever2_mDog[2].GetMonsterBox()) || CheckCollision(mBox, Lever2_mDog[3].GetMonsterBox()))
         {
             HURT = true;
             RUN = IDLE = false;
-            Health -= 1;
+            FoxHealth -= 1;
         }
         else
         {
             HURT = false;
+        }
+    }
+    if (current_level == 3)
+    {
+        for (int i = 0; i < mPigsOfBoss.size(); i++)
+        {
+            if (CheckCollision(mPigsOfBoss[i]->GetMonsterBox(), fox.GetBox()))
+            {
+                FoxHealth -= 1;
+            }
+        }
+        for (int i = 0; i < mSlimesOfBoss.size(); i++)
+        {
+            if (CheckCollision(mSlimesOfBoss[i]->GetMonsterBox(), fox.GetBox()))
+            {
+                FoxHealth -= 1;
+            }
+        }
+        for (int i = 0; i < mDogOfBoss.size(); i++)
+        {
+            if (CheckCollision(mDogOfBoss[i]->GetMonsterBox(), fox.GetBox()))
+            {
+                FoxHealth -= 1;
+            }
+        }
+        if (CheckCollision(mBox, mBoss.GetBox()))
+        {
+            FoxHealth -= 2;
         }
     }
     // Fox eat cherry handle
@@ -214,21 +243,23 @@ void Fox::Move(Tile* tiles[])
             if (tiles[i]->IsMoneyBlock(tiles[i]->GetTileType()))
             {
                 Mix_PlayChannel(-1, gCoin, 0);
-                Highscore += 100;
-                tiles[i]->SetType(TILE_AIR_BLOCK); // fix lai
-                if (Health <= FOX_MAX_HEALTH - 10)
+                Score += 100;
+                tiles[i]->SetType(TILE_AIR_BLOCK);
+                FoxHealth += 10;
+                if (FoxHealth > FOX_MAX_HEALTH)
                 {
-                    Health += 10;
+                    FoxHealth = FOX_MAX_HEALTH;
                 }
             }
             else if (tiles[i]->IsBlackMoneyBlock(tiles[i]->GetTileType()))
             {
                 Mix_PlayChannel(-1, gCoin, 0);
                 tiles[i]->SetType(TILE_BIG_LEFT_DIRT_2);
-                Highscore += 100;
-                if (Health <= FOX_MAX_HEALTH - 10)
+                Score += 100;
+                FoxHealth += 10;
+                if (FoxHealth > FOX_MAX_HEALTH)
                 {
-                    Health += 10;
+                    FoxHealth = FOX_MAX_HEALTH;
                 }
             }
             if (tiles[i]->GetTileType() == TILE_FIREBALL_BONUS)
@@ -236,6 +267,12 @@ void Fox::Move(Tile* tiles[])
                 Mix_PlayChannel(-1, gCoin, 0);
                 FireballEnergy++;
                 tiles[i]->SetType(TILE_AIR_BLOCK);
+            }
+            if (tiles[i]->GetTileType() == TILE_BLACK_FIREBALL_BONUS)
+            {
+                Mix_PlayChannel(-1, gCoin, 0);
+                FireballEnergy++;
+                tiles[i]->SetType(TILE_BIG_LEFT_DIRT_2);
             }
         }
         // Spike
@@ -266,6 +303,12 @@ void Fox::Move(Tile* tiles[])
         if (fireball->IsActive())
         {
             fireball->Move(tiles);
+        }
+        if (CheckCollision(fireball->GetBoxFireball(), mBoss.GetBox()))
+        {
+            mBoss.TakeDamage();
+            fireball->Disable();
+            Mix_PlayChannel(-1, gExplosion, 0);
         }
     }
     // If player get 5 energy
@@ -386,7 +429,7 @@ void Fox::Respawn()
 }
 void Fox::ShootFireBall()
 {
-    // static int NumFireBalls = 0;
+
     if (NumFireBalls < 5)
     {
 
@@ -424,9 +467,9 @@ void Fox::ShootFireBall()
 bool Fox::HealthCheck()
 {
     // Check health is empty
-    if (Health <= 0)
+    if (FoxHealth <= 0)
     {
-        Health = 133;
+        FoxHealth = 133;
         return true;
     }
     return false;

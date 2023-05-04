@@ -15,6 +15,7 @@ Pig::Pig()
     facing = false;
     RUN = true;
     Run_counter = 0;
+    Is_Die = false;
 }
 
 void Pig::SetPosition(int x, int y)
@@ -42,13 +43,13 @@ bool Pig::LoadMonster()
 void Pig::SimpleAI(Tile* tiles[], int PlayerPosX, int PlayerPosY)
 {
     // if player is right of pig (7 block)
-    if (PlayerPosX - mBox.x > 0 && PlayerPosX - mBox.x <= TILE_WIDTH * 7)
+    if (PlayerPosX - mBox.x > 0 && PlayerPosX - mBox.x <= TILE_WIDTH * 9)
     {
         mVelX = PIG_SPEED;
         facing = true;
     }
     // if player is left of pig (7 block)
-    else if (PlayerPosX - mBox.x < 0 && PlayerPosX - mBox.x >= - TILE_WIDTH * 7)
+    else if (PlayerPosX - mBox.x < 0 && PlayerPosX - mBox.x >= - TILE_WIDTH * 9)
     {
         mVelX = -PIG_SPEED;
         facing = false;
@@ -138,13 +139,14 @@ void Pig::Respawn()
     mBox.y = mInitalizeY;
 }
 
-void Pig::Attack()
-{
-
-}
-
 void Pig::Die()
 {
     mBox.x = -100;
     mBox.y = -100;
+    Is_Die = true;
+}
+
+bool Pig::IsDie()
+{
+    return Is_Die;
 }

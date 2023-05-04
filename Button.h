@@ -26,6 +26,14 @@ public:
 
     void HandleNoButton(SDL_Event* event);
 
+    void HandlePauseButton(SDL_Event* event);
+
+    void HandleResumeButton(SDL_Event* event);
+
+    void HandleHomeButton(SDL_Event* event);
+
+    void HandleRestartButton(SDL_Event* event);
+
     void ButtonRender();
 
     bool IsInside(SDL_Event* event, int bWidth, int bHeight);

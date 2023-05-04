@@ -53,6 +53,8 @@ void RenderGameStart();
 // GameOver Background
 void RenderGameOver();
 
+void RenderGameWin();
+
 // Reset Gameplay
 void ResetGamePlay();
 

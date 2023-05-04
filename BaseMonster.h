@@ -7,24 +7,32 @@
 class BaseMonster : public LTexture
 {
 public:
+    // Monster gravity and max fall velocity
     static const int GRAVITY = 1;
     static const int MONSTER_MAX_VEL_FALL = 7;
-    // Initialize
     BaseMonster();
     virtual ~BaseMonster();
 
     // Load, Handle Event, Move, Render
     virtual bool LoadMonster();
+
     virtual void HandleEvent(SDL_Event& event);
+
     virtual void MonsterMove(Tile* tiles[]);
+
     virtual void RenderMonster(SDL_Rect& camera);
+
     virtual void SetCamera(SDL_Rect& camera);
+
     virtual SDL_Rect GetMonsterBox();
 
     // Monster status
     virtual bool IsFallingOff();
+
     virtual void Respawn();
+
     virtual void Attack();
+
     virtual void Die();
 public:
     // Collision box of monster

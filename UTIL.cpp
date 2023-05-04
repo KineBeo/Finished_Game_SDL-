@@ -59,7 +59,7 @@ bool Init()
 bool LoadBackGround()
 {
     bool success = true;
-    if(!g_background.LoadImageFromFile("img/Background/background.png"))
+    if(!g_background.LoadImageFromFile("img/Background/bg-clouds.png"))
     {
         cout << "Failed to load background! \n";
         success = false;
@@ -86,6 +86,14 @@ bool LoadBackGround()
         success = false;
     }
     if (!NumFireballInStateBar.LoadImageFromFile("img/FireballBonus.png"))
+    {
+        success = false;
+    }
+    if (!PauseBar.LoadImageFromFile("img/Background/PauseBar.png"))
+    {
+        success = false;
+    }
+    if (!gBossHealthBar.LoadImageFromFile("img/BossHealthBar.png"))
     {
         success = false;
     }
@@ -160,22 +168,6 @@ bool LoadMusic()
         success = false;
     }
     return success;
-}
-void LoadAllCharacter()
-{
-
-}
-void SetEnemyPosition()
-{
-
-}
-void RenderEnemy(SDL_Rect& camera)
-{
-
-}
-void CharacterMove(Tile* tileSet[])
-{
-
 }
 void Close(Tile* tiles[])
 {
@@ -402,7 +394,7 @@ bool SetTiles(Tile* tiles[], string path)
             }
 
             // Row 12 Texture
-            for (int i = TILE_GEM; i <= TILE_FIREBALL_BONUS; i++)
+            for (int i = TILE_GEM; i <= TILE_BLACK_FIREBALL_BONUS; i++)
             {
                 gTileClips[i] = {(i-TILE_GEM) * 64, 704, TILE_WIDTH, TILE_HEIGHT};
             }
@@ -432,8 +424,15 @@ bool TouchesWall(SDL_Rect box, Tile* tiles[])
 }
 void RenderBackGround()
 {
+    // Scroll background
+    scrollingOfSet -= 0.7;
+    if (scrollingOfSet < -g_background.GetWidth())
+    {
+        scrollingOfSet = 0;
+    }
     // Render main background image
-    g_background.Render(0, 0, NULL);
+    g_background.Render(scrollingOfSet, 0, NULL);
+    g_background.Render(scrollingOfSet + g_background.GetWidth(), 0, NULL);
     for (int i = 0; i < LEVER_WIDTH; i+=300)
     {
         g_middle_background.Render(i, 250, NULL);
@@ -471,12 +470,18 @@ void RenderGameOver()
     game_over_texture.LoadImageFromFile("img/Background/GameOver.png");
     game_over_texture.Render(0, 0, NULL);
 }
-
+void RenderGameWin()
+{
+    LTexture WinBackground;
+    WinBackground.LoadImageFromFile("img/Background/WinBackground.png");
+    WinBackground.Render(0, 0, NULL);
+}
 void ResetGamePlay()
 {
-    Highscore = FireballEnergy = NumFireBalls = 0;
-    Health = 133;
-    current_level = 1;
+    Score = FireballEnergy = NumFireBalls = 0;
+    fox.ResetDeathCount();
+    FoxHealth = 133;
+    // current_level = 1;
     PigRespawn();
     EagleRespawn();
 }

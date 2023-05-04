@@ -13,7 +13,7 @@ const int TILE_WIDTH = 64;
 const int TILE_HEIGHT = 64;
 
 const int TOTAL_TILES = 12000;
-const int TOTAL_TILE_SPRITES = 93;
+const int TOTAL_TILE_SPRITES = 94;
 
 const int FOX_MAX_HEALTH = 133;
 
@@ -97,7 +97,7 @@ const int TILE_DIAGONAL_DIRT_TYPE_RIGHT_2 = 42;
 const int TILE_DIAGONAL_DIRT_TYPE_RIGHT_3 = 43;
 const int TILE_DIAGONAL_DIRT_TYPE_LEFT_1 = 44;
 const int TILE_DIAGONAL_DIRT_TYPE_LEFT_2 = 45;
-const int TILE_DIAGONAL_DIRT_TYPE_LEFT_3 = 46   ;
+const int TILE_DIAGONAL_DIRT_TYPE_LEFT_3 = 46;
 const int TILE_CAVE_LEAVES_1 = 47;
 const int TILE_CAVE_LEAVES_2 = 48;
 
@@ -156,9 +156,11 @@ const int TILE_ROSI_BLOCK_2 = 86;
 const int TILE_TWIN_WOODEN_BOX_1 = 87;
 const int TILE_TWIN_WOODEN_BOX_2 = 88;
 
+// Bonus tile
 const int TILE_GEM = 89;
 const int TILE_CHERRY = 90;
 const int TILE_BLACK_GEM = 91;
 const int TILE_BLACK_CHERRY = 92;
 const int TILE_FIREBALL_BONUS = 93;
+const int TILE_BLACK_FIREBALL_BONUS = 94;
 #endif // CONSTANTS_H_

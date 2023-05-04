@@ -10,7 +10,7 @@ LTexture g_Death_count;
 
 LTexture PlayAgain;
 
-LTexture gHighScoreText;
+LTexture gScoreText;
 
 LTexture gTutorialText;
 
@@ -54,7 +54,7 @@ int current_level;
 
 int game_status;
 
-int Highscore;
+int Score;
 
 int FireballEnergy = 0;
 
@@ -72,11 +72,19 @@ Button gYesButton;
 
 Button gNoButton;
 
+Button gResumeButton;
+
+Button gPauseButton;
+
+Button gHomeButton;
+
+Button gRestartButton;
+
 bool playagain = false;
 
 int FoxPosX, FoxPosY;
 
-int Health;
+int FoxHealth;
 
 LTexture StateBar;
 
@@ -96,6 +104,49 @@ Mix_Chunk *gExplosion = NULL;
 
 Mix_Chunk *gCoin = NULL;
 
+Boss mBoss;
+
+double scrollingOfSet = 0;
+
+bool GamePause = false;
+
+LTexture PauseBar;
+
+std::vector <Pig*> mPigsOfBoss;
+
+std::vector <Slime*> mSlimesOfBoss;
+
+std::vector <CreepyDog*> mDogOfBoss;
+
+int NumPigOfBossDie = 0;
+
+int NumPigofBossSpawn = 0;
+
+int SpawnTimer = 0;
+
+int PigSpawnTimer = 0;
+
+int SlimeSpawnTimer = 0;
+
+int DogSpawnTimer = 0;
 
 
+LTexture gBossFireball;
 
+LTexture gBossHealthBar;
+
+int BossHealth;
+
+int FoxCurrentHeart;
+
+int FireBallPhase3SpawnTime = 0;
+
+int TeleportTimer = 0;
+
+LTexture BossDieMessageToPlayer_Text;
+
+LTexture VictoryMessage_Text;;
+
+LTexture BossPhase3Text;
+
+CreepyDog Lever2_mDog[LEVER2_TOTAL_EAGLE];

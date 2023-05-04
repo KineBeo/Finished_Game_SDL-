@@ -18,7 +18,7 @@ FireBall::FireBall()
 bool FireBall::LoadFireBall()
 {
     // Load fireball texture
-    bool success = LTexture::LoadImageFromFile("img/fire-ball.png");
+    bool success = LTexture::LoadImageFromFile("img/Fireball.png");
     if ( !success )
     {
         return false;
@@ -30,8 +30,6 @@ bool FireBall::LoadFireBall()
             Fireball_clip[i] = {i * 76, 0, 76, 64};
         }
     }
-    mBox.w = FIRE_WIDTH;
-    mBox.h = FIRE_HEIGHT;
     mActive = true;
     return true;
 }
@@ -94,31 +92,61 @@ void FireBall::Move(Tile* tiles[])
     }
 
     // If fireball hits the enemy, kill enemy and clear fireball
+    // Hit monster in lever 1
     for (int i = 0; i < 6; i++)
     {
         if (CheckCollision(mBox, Lever1_mPigs[i].GetMonsterBox()))
         {
             Mix_PlayChannel(-1, gExplosion, 0);
             Lever1_mPigs[i].Die();
-            Highscore += 200;
+            Score += 200;
             mActive = false;
         }
         if (CheckCollision(mBox, Lever1_mEagles[i].GetMonsterBox()))
         {
             Mix_PlayChannel(-1, gExplosion, 0);
             Lever1_mEagles[i].Die();
-            Highscore += 200;
+            Score += 200;
             mActive = false;
         }
     }
+    // Hit monster in lever 2
     for (int i = 0; i < LEVER2_TOTAL_EAGLE; i++)
     {
         if (CheckCollision(mBox, Lever2_mEagles[i].GetMonsterBox()))
         {
             Mix_PlayChannel(-1, gExplosion, 0);
             Lever2_mEagles[i].Die();
-            Highscore += 200;
+            Score += 200;
             mActive = false;
+        }
+        if (CheckCollision(mBox, Lever2_mDog[i].GetMonsterBox()))
+        {
+            Mix_PlayChannel(-1, gExplosion, 0);
+            Lever2_mDog[i].Die();
+            Score += 200;
+            mActive = false;
+        }
+    }
+    for (int i = 0; i < mPigsOfBoss.size(); i++)
+    {
+        if (CheckCollision(mBox, mPigsOfBoss[i]->GetMonsterBox()))
+        {
+            mPigsOfBoss[i]->Die();
+        }
+    }
+    for (int i = 0; i < mDogOfBoss.size(); i++)
+    {
+        if (CheckCollision(mBox, mDogOfBoss[i]->GetMonsterBox()))
+        {
+            mDogOfBoss[i]->Die();
+        }
+    }
+    for (int i = 0; i < mSlimesOfBoss.size(); i++)
+    {
+        if (CheckCollision(mBox, mSlimesOfBoss[i]->GetMonsterBox()))
+        {
+            mSlimesOfBoss[i]->Die();
         }
     }
 }

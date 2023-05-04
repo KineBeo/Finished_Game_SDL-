@@ -36,9 +36,13 @@
 		</Compiler>
 		<Unit filename="BaseMonster.cpp" />
 		<Unit filename="BaseMonster.h" />
+		<Unit filename="Boss.cpp" />
+		<Unit filename="Boss.h" />
 		<Unit filename="Button.cpp" />
 		<Unit filename="Button.h" />
 		<Unit filename="Constants.h" />
+		<Unit filename="CreepyDog.cpp" />
+		<Unit filename="CreepyDog.h" />
 		<Unit filename="Eagle.cpp" />
 		<Unit filename="Eagle.h" />
 		<Unit filename="FireBall.h" />
@@ -51,6 +55,8 @@
 		<Unit filename="LTexture.h" />
 		<Unit filename="Pig.cpp" />
 		<Unit filename="Pig.h" />
+		<Unit filename="Slime.cpp" />
+		<Unit filename="Slime.h" />
 		<Unit filename="Tile.cpp" />
 		<Unit filename="Tile.h" />
 		<Unit filename="UTIL.cpp" />

@@ -59,8 +59,6 @@ void Eagle::MonsterMove(Tile* tiles[])
     }
 }
 
-
-
 void Eagle::RenderMonster(SDL_Rect& camera)
 {
     SDL_Rect* current_clip = &Eagle_fly_clip[Fly_counter / 5];

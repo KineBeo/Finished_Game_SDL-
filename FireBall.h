@@ -7,12 +7,12 @@
 class FireBall : public LTexture
 {
 public:
-    // Fireball size and speed
+    // Fireball dimensions and speed
     static const int FIRE_WIDTH = 64;
     static const int FIRE_HEIGHT = 64;
-    static const int FIRE_SPEED = 20;
+    static const int FIRE_SPEED = 15;
 
-    // Initialize
+    // Initialize fireball
     FireBall();
     // Load fireball texture
     bool LoadFireBall();
